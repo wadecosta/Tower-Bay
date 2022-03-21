@@ -9,6 +9,11 @@ public class EnemyDemo : MonoBehaviour
     public int coins = 3;
     public int size;
 
+    private int count;
+    private bool passed;
+
+    private Animator animator;
+
     public List<Transform> waypointList;
 
     private int targetWaypointIndex;
@@ -32,11 +37,25 @@ public class EnemyDemo : MonoBehaviour
 
 	size = waypointList.Count;
 
+	count = 0;
+	passed = false;
+
+	animator = GetComponent<Animator>();
+
     }
 
     //-----------------------------------------------------------------------------
     void Update()
     {
+	//Walking or Running Animation
+	if(speed < 5)
+	{
+		animator.SetBool("isWalking", true);
+		//Debug.Log("got here");
+
+	}
+	Debug.Log(speed);
+
 	// Click on enemy
 	
 	if(Input.GetMouseButtonDown(0))
@@ -71,11 +90,44 @@ public class EnemyDemo : MonoBehaviour
 	transform.position = newPosition;
 
 	float cosAngle = Vector3.Dot(targetPosition.normalized, this.transform.position.normalized);
-	if((cosAngle >= 0.999999) && (targetWaypointIndex < size-1))
+	if((cosAngle > 0.99) && (targetWaypointIndex < size-1))
 	{
-		targetWaypointIndex++;
+		//this.transform.position = targetPosition;
+		passed = true;
+
+		//Debug.Log(passed);
+
+		//count++;
+		//targetWaypointIndex++;
+
+
+		/*if(count == 3)
+		{
+			transform.Rotate(0.0f, -90.0f, 0.0f, Space.Self);
+			count = 0;
+		}
+		*/
 	}
-	Debug.Log(cosAngle);
+	//Debug.Log(passed);
+	
+	if((passed) && (targetWaypointIndex < size-1))
+	{
+		this.transform.position = targetPosition;
+
+		count++;
+                targetWaypointIndex++;
+
+
+                if(count == 3)
+                {
+                        transform.Rotate(0.0f, -90.0f, 0.0f, Space.Self);
+                        count = 0;
+                }
+
+		passed = false;
+
+	}
+
 	
 	/*
 	if((Vector3.Distance(transform.position, targetPosition) < .2f) && (targetWaypointIndex < size-1))
