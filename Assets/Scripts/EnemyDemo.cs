@@ -10,7 +10,9 @@ public class EnemyDemo : MonoBehaviour
     public int size;
 
     private int count;
+    private int total;
     private bool passed;
+    private bool finished;
 
     private Animator animator;
 
@@ -38,7 +40,9 @@ public class EnemyDemo : MonoBehaviour
 	size = waypointList.Count;
 
 	count = 0;
+	total = 0;
 	passed = false;
+	finished = false;
 
 	animator = GetComponent<Animator>();
 
@@ -48,13 +52,22 @@ public class EnemyDemo : MonoBehaviour
     void Update()
     {
 	//Walking or Running Animation
-	if(speed < 5)
+	if((speed > 0 ) && (speed < 5))
 	{
+		animator.SetBool("isRunning", false);
 		animator.SetBool("isWalking", true);
-		//Debug.Log("got here");
 
 	}
-	Debug.Log(speed);
+	else if(speed >= 5)
+	{
+		animator.SetBool("isWalking", false);
+		animator.SetBool("isRunning", true);
+	}
+	else
+	{
+		animator.SetBool("isWalking", false);
+		animator.SetBool("isRunning", false);
+	}
 
 	// Click on enemy
 	
@@ -89,36 +102,30 @@ public class EnemyDemo : MonoBehaviour
 
 	transform.position = newPosition;
 
-	float cosAngle = Vector3.Dot(targetPosition.normalized, this.transform.position.normalized);
-	if((cosAngle > 0.99) && (targetWaypointIndex < size-1))
-	{
-		//this.transform.position = targetPosition;
-		passed = true;
-
-		//Debug.Log(passed);
-
-		//count++;
-		//targetWaypointIndex++;
-
-
-		/*if(count == 3)
-		{
-			transform.Rotate(0.0f, -90.0f, 0.0f, Space.Self);
-			count = 0;
-		}
-		*/
-	}
-	//Debug.Log(passed);
 	
-	if((passed) && (targetWaypointIndex < size-1))
+	float cosAngle = Vector3.Dot(targetPosition.normalized, this.transform.position.normalized);
+
+
+	if((cosAngle > 0.9999) && (targetWaypointIndex <= size-1))
+	{
+		passed = true;
+	}
+
+	
+	if((passed) && (targetWaypointIndex <= size-1))
 	{
 		this.transform.position = targetPosition;
 
 		count++;
-                targetWaypointIndex++;
+		total++;
+		if(targetWaypointIndex != size-1)
+		{
+			targetWaypointIndex++;
+		}
+                //targetWaypointIndex++;
 
 
-                if(count == 3)
+                if((count == 3) && (finished == false))
                 {
                         transform.Rotate(0.0f, -90.0f, 0.0f, Space.Self);
                         count = 0;
@@ -127,6 +134,28 @@ public class EnemyDemo : MonoBehaviour
 		passed = false;
 
 	}
+
+	/*
+	if((passed) && (targetWaypointIndex == size-1))
+	{
+		//total++;
+		Debug.Log("Fin");
+	}
+
+	Debug.Log(total);
+	*/
+
+
+	if(this.transform.position == waypointList[waypointList.Count - 1].position)
+	{
+		speed = 0;
+		Debug.Log("Finished");
+		animator.SetBool("isWalking", false);
+                animator.SetBool("isRunning", false);
+		finished = true;
+
+	}
+	
 
 	
 	/*
