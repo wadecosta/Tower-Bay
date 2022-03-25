@@ -14,11 +14,17 @@ public class EnemyDemo : MonoBehaviour
     private bool passed;
     private bool finished;
 
+    public float timer;
+    public GameObject enemy;
+
+
     private Animator animator;
 
     public List<Transform> waypointList;
 
     private int targetWaypointIndex;
+
+    //public GameObject NI;
 
     //   health, speed, coin worth
     //   waypoints
@@ -41,6 +47,7 @@ public class EnemyDemo : MonoBehaviour
 
 	count = 0;
 	total = 0;
+	//timer = 0;
 	passed = false;
 	finished = false;
 
@@ -51,6 +58,20 @@ public class EnemyDemo : MonoBehaviour
     //-----------------------------------------------------------------------------
     void Update()
     {
+	
+	/*
+	timer += Time.deltaTime;
+	
+	if(timer > 3)
+        {
+                    //var rot = Quaternion.Euler(Vector3(0, -90, 0));
+
+                    NI = Instantiate(enemy, new Vector3(18, 9, 0), Quaternion.Euler(0, -90, 90));
+                    timer = 0;
+        }
+	*/
+
+
 	//Walking or Running Animation
 	if((speed > 0 ) && (speed < 5))
 	{
@@ -90,6 +111,7 @@ public class EnemyDemo : MonoBehaviour
 	{
 		Score.score++;
 		Destroy(this.gameObject);
+		//Destroy(NI, 1f);
 	}
 
 	
@@ -122,7 +144,6 @@ public class EnemyDemo : MonoBehaviour
 		{
 			targetWaypointIndex++;
 		}
-                //targetWaypointIndex++;
 
 
                 if((count == 3) && (finished == false))
@@ -134,16 +155,6 @@ public class EnemyDemo : MonoBehaviour
 		passed = false;
 
 	}
-
-	/*
-	if((passed) && (targetWaypointIndex == size-1))
-	{
-		//total++;
-		Debug.Log("Fin");
-	}
-
-	Debug.Log(total);
-	*/
 
 
 	if(this.transform.position == waypointList[waypointList.Count - 1].position)
@@ -158,15 +169,6 @@ public class EnemyDemo : MonoBehaviour
 	
 
 	
-	/*
-	if((Vector3.Distance(transform.position, targetPosition) < .2f) && (targetWaypointIndex < size-1))
-	{
-		//targetWaypointIndex++;
-		//target = waypointList[targetWaypointIndex];
-		//Test
-	}
-	*/
-
 
         // todo #4 Check if destination reaches or passed and change target
 	
