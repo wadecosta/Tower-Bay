@@ -24,6 +24,8 @@ public class EnemyDemo : MonoBehaviour
 
     private int targetWaypointIndex;
 
+    public HealthBar healthBar;
+
     //public GameObject NI;
 
     //   health, speed, coin worth
@@ -52,6 +54,9 @@ public class EnemyDemo : MonoBehaviour
 	finished = false;
 
 	animator = GetComponent<Animator>();
+
+	//Heath Bar
+	healthBar.SetMaxHealth(3);
 
     }
 
@@ -101,7 +106,8 @@ public class EnemyDemo : MonoBehaviour
         	{  
                 	if(hit.transform != null)
                 	{
-				health--;	
+				health--;
+				healthBar.SetHealth(health);
                 	}
         	}  
 	}

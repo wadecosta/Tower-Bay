@@ -19,7 +19,6 @@ public class ScoreText : MonoBehaviour
     {
 	    TextMeshProUGUI score_text = GetComponent<TextMeshProUGUI>();
             score_text.SetText("Coins: " + Score.score);
-	    Debug.Log(Score.score);
         
     }
 }
