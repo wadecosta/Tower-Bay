@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuyTower : MonoBehaviour
+public class BuyT3 : MonoBehaviour
 {
     [SerializeField]
     private GameObject button;
@@ -16,10 +16,10 @@ public class BuyTower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-	    gameObject.GetComponent<Button>().onClick.AddListener(TaskOnClick);
-	    isClicked = false;
+            gameObject.GetComponent<Button>().onClick.AddListener(TaskOnClick);
+            isClicked = false;
 
-        
+
     }
 
     // Update is called once per frame
@@ -29,12 +29,13 @@ public class BuyTower : MonoBehaviour
 
     void TaskOnClick()
     {
-	    if(isClicked == false)
+            if((isClicked == false) && (Score.score > 0))
             {
-                    Debug.Log("Found T1");
-		    GameObject instance = Instantiate(tower, new Vector3(-80, 22, 0), Quaternion.Euler(0, -90, 90));
-		    isClicked = true;
+                    Instantiate(tower, new Vector3(-13, -5, -1), Quaternion.Euler(0, -90, 90));
+                    isClicked = true;
+                    Score.score--;
             }
 
     }
 }
+

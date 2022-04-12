@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyDemo : MonoBehaviour
 {
     // todo #1 set up properties
-    public int health = 3;
+    private int health = 3;
     public float speed = 3f;
     public int coins = 3;
     public int size;
@@ -25,6 +25,10 @@ public class EnemyDemo : MonoBehaviour
     private int targetWaypointIndex;
 
     public HealthBar healthBar;
+
+    //Audio
+    [SerializeField]
+    public AudioSource deathSound;
 
     //public GameObject NI;
 
@@ -58,11 +62,15 @@ public class EnemyDemo : MonoBehaviour
 	//Heath Bar
 	healthBar.SetMaxHealth(3);
 
+	//Death Sound
+	deathSound = GetComponent<AudioSource>();
+
     }
 
     //-----------------------------------------------------------------------------
     void Update()
     {
+	deathSound = GetComponent<AudioSource>();
 	
 	/*
 	timer += Time.deltaTime;
@@ -116,8 +124,11 @@ public class EnemyDemo : MonoBehaviour
 	if(health == 0)
 	{
 		Score.score++;
+
+		//Play Death Sound
+		deathSound.Play();
+
 		Destroy(this.gameObject);
-		//Destroy(NI, 1f);
 	}
 
 	
